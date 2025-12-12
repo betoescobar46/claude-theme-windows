@@ -1,0 +1,23 @@
+{
+    "name": "Claude OLED Black",
+    "background": "#000000",
+    "foreground": "#EFEFEF",
+    "cursorColor": "#CC785C",
+    "selectionBackground": "#CC785C40",
+    "black": "#000000",
+    "red": "#E55A5A",
+    "green": "#5AE55A",
+    "yellow": "#E5E55A",
+    "blue": "#5A5AE5",
+    "purple": "#CC785C",
+    "cyan": "#5AE5E5",
+    "white": "#EFEFEF",
+    "brightBlack": "#1A1A1A",
+    "brightRed": "#FF7A7A",
+    "brightGreen": "#7AFF7A",
+    "brightYellow": "#FFFF7A",
+    "brightBlue": "#7A7AFF",
+    "brightPurple": "#D4A574",
+    "brightCyan": "#7AFFFF",
+    "brightWhite": "#FFFFFF"
+}

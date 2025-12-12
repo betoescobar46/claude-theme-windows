@@ -1,0 +1,17 @@
+# Backups (contain personal system data)
+Backups/
+
+# Logs
+Logs/
+*.log
+
+# Temporary files
+*.tmp
+*~
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Large downloaded tools (can be re-downloaded)
+Tools/ExplorerPatcher-setup.exe

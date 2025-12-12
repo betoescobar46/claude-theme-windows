@@ -1,0 +1,23 @@
+﻿{
+    "cyan":  "#40A0A0",
+    "red":  "#C44040",
+    "green":  "#40A040",
+    "yellow":  "#A0A040",
+    "selectionBackground":  "#CC785C40",
+    "brightWhite":  "#FFFFFF",
+    "name":  "Claude Light",
+    "brightYellow":  "#C0C05A",
+    "cursorColor":  "#CC785C",
+    "brightCyan":  "#5AC0C0",
+    "background":  "#FFF8F0",
+    "black":  "#FFF8F0",
+    "brightPurple":  "#E0A080",
+    "brightBlue":  "#5A5AC0",
+    "brightGreen":  "#5AC05A",
+    "foreground":  "#1A1A1A",
+    "white":  "#1A1A1A",
+    "purple":  "#CC785C",
+    "brightBlack":  "#E8DCD0",
+    "blue":  "#4040A0",
+    "brightRed":  "#E55A5A"
+}
