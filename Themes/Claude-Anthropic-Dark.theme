@@ -4,7 +4,7 @@
 
 [Theme]
 DisplayName=Claude Anthropic Dark
-ThemeId={8f4068c2-1233-4974-8cc1-efda5b09b71c}
+ThemeId={075c420a-f34d-40ad-bd58-ac0d4983554a}
 
 [Control Panel\Colors]
 Background=28 28 28
@@ -16,12 +16,12 @@ ButtonFace=45 45 45
 ButtonText=239 239 239
 
 [Control Panel\Desktop]
-Wallpaper=C:\Users\betoe\ClaudeTheme\Wallpapers\Claude-Wallpaper-Dark.png
+Wallpaper=C:\Users\betoe\Desktop\ClaudeTheme\Wallpapers\Claude-Wallpaper-Dark.png
 TileWallpaper=0
 WallpaperStyle=10
 
 [Control Panel\Cursors]
-Arrow=C:\Users\betoe\ClaudeTheme\Cursors\normal.cur
+Arrow=C:\Users\betoe\Desktop\ClaudeTheme\Cursors\normal.cur
 AppStarting=
 Crosshair=
 Hand=
