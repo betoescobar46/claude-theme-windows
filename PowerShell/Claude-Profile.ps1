@@ -4,42 +4,42 @@
 # Configurar colores de PSReadLine
 if (Get-Module -ListAvailable -Name PSReadLine) {
     Set-PSReadLineOption -Colors @{
-        Command            = '#CC785C'
-        Comment            = '#A0A0A0'
-        ContinuationPrompt = '#A0A0A0'
-        Default            = '#EFEFEF'
-        Emphasis           = '#D4A574'
+        Command            = '#D4A08A'
+        Comment            = '#B1ADA1'
+        ContinuationPrompt = '#B1ADA1'
+        Default            = '#ECECEC'
+        Emphasis           = '#E8CABA'
         Error              = '#E55A5A'
-        InlinePrediction   = '#3A3530'
-        Keyword            = '#CC785C'
-        ListPrediction     = '#D4A574'
-        Member             = '#EFEFEF'
-        Number             = '#D4A574'
-        Operator           = '#A0A0A0'
-        Parameter          = '#D4A574'
-        Selection          = '#CC785C'
+        InlinePrediction   = '#454240'
+        Keyword            = '#D4A08A'
+        ListPrediction     = '#E8CABA'
+        Member             = '#ECECEC'
+        Number             = '#E8CABA'
+        Operator           = '#B1ADA1'
+        Parameter          = '#E8CABA'
+        Selection          = '#D4A08A'
         String             = '#5AE55A'
-        Type               = '#CC785C'
-        Variable           = '#D4A574'
+        Type               = '#D4A08A'
+        Variable           = '#E8CABA'
     }
 }
 
 # Prompt personalizado con colores de Claude
 function prompt {
     $lastSuccess = $?
-    $statusColor = if ($lastSuccess) { '#CC785C' } else { '#E55A5A' }
+    $statusColor = if ($lastSuccess) { '#D4A08A' } else { '#E55A5A' }
 
     Write-Host ""
     Write-Host "$([char]0x250C)" -NoNewline -ForegroundColor DarkGray
     Write-Host " " -NoNewline
-    Write-Host $env:USERNAME -NoNewline -ForegroundColor 'CC785C'
+    Write-Host $env:USERNAME -NoNewline -ForegroundColor 'D4A08A'
     Write-Host "@" -NoNewline -ForegroundColor DarkGray
-    Write-Host $env:COMPUTERNAME -NoNewline -ForegroundColor 'D4A574'
+    Write-Host $env:COMPUTERNAME -NoNewline -ForegroundColor 'E8CABA'
     Write-Host " " -NoNewline
-    Write-Host $(Get-Location) -ForegroundColor 'A0A0A0'
+    Write-Host $(Get-Location) -ForegroundColor 'B1ADA1'
     Write-Host "$([char]0x2514)$([char]0x2500)" -NoNewline -ForegroundColor DarkGray
     Write-Host " $([char]0x276F)" -NoNewline -ForegroundColor $statusColor
     return " "
 }
 
-Write-Host "Claude Theme loaded!" -ForegroundColor '#CC785C'
+Write-Host "Claude Theme loaded!" -ForegroundColor '#D4A08A'

@@ -98,7 +98,6 @@ ClaudeTheme/
 
 For the full "Claude OS" experience, install:
 
-- **[TranslucentTB](https://apps.microsoft.com/store/detail/translucenttb/9PF4KZ2VN4W9)** - Floating taskbar with blur effect
 - **[Inter Font](https://fonts.google.com/specimen/Inter)** - Already included in installation
 
 ## Requirements

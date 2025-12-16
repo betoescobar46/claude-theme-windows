@@ -80,10 +80,10 @@ $Script:Config = @{
         TextPrimary = "ECECEC"        # Blanco suave
         TextSecondary = "B1ADA1"      # Cloudy - gris oficial Claude
         # Colores para ondas del wallpaper (suaves)
-        WaveBack = "3D3A38"           # Onda trasera sutil
-        WaveMid = "5A5450"            # Onda media gris calido
-        WaveAccent = "D4A08A"         # Onda principal salmon suave
-        WaveHighlight = "E8CABA"      # Highlights crema rosado
+        WaveBack = "C4978A"           # Salmon oscuro
+        WaveMid = "D4A08A"            # Salmon medio
+        WaveAccent = "E8B4A0"         # Salmon claro
+        WaveHighlight = "F5D4C8"      # Salmon muy claro
     }
 
     # Colores Claude V3 - Modo Claro (ELEGANTE - Pampas oficial)
@@ -96,10 +96,10 @@ $Script:Config = @{
         TextPrimary = "2D2B2A"        # Gris oscuro calido
         TextSecondary = "8A8580"      # Gris medio
         # Colores para ondas del wallpaper (suaves)
-        WaveBack = "E8E6E0"           # Onda trasera crema
-        WaveMid = "DDD5CA"            # Onda media arena suave
+        WaveBack = "F5D4C8"           # Salmon palido
+        WaveMid = "E8C4B8"            # Salmon suave
         WaveAccent = "D4A08A"         # Onda principal salmon
-        WaveHighlight = "F8F6F2"      # Highlights blancos suaves
+        WaveHighlight = "FFF0EA"      # Salmon casi blanco
     }
 
     # Colores Claude V3 - Modo OLED Black (elegante)
@@ -113,25 +113,24 @@ $Script:Config = @{
         TextPrimary = "ECECEC"        # Blanco suave
         TextSecondary = "7A7672"      # Gris medio
         # Colores para ondas del wallpaper
-        WaveBack = "1A1816"           # Onda trasera muy sutil
+        WaveBack = "4A2F28"           # Salmon muy oscuro
         WaveMid = "2A2624"            # Onda media
         WaveAccent = "D4A08A"         # Onda principal salmon
-        WaveHighlight = "C9B8A8"      # Highlights beige suave
+        WaveHighlight = "E8CABA"      # Salmon claro
     }
 
     # Componentes disponibles
     AllComponents = @(
         'Colors', 'Theme', 'Taskbar', 'Borders', 'Cursors',
         'Wallpaper', 'LockScreen', 'Font', 'Icons',
-        'ExplorerPatcher', 'Terminal', 'PowerShell', 'TranslucentTB'
+        'ExplorerPatcher', 'Terminal', 'PowerShell'
     )
 
     # URLs de recursos
     Resources = @{
         InterFont = "https://github.com/rsms/inter/releases/download/v4.0/Inter-4.0.zip"
         ExplorerPatcher = "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe"
-        TranslucentTB = "winget:TranslucentTB"
-    }
+        }
 }
 #endregion
 
@@ -575,7 +574,7 @@ function New-ClaudeWallpaper {
         } elseif ($ThemeMode -eq "OLED") {
             [System.Drawing.ColorTranslator]::FromHtml("#000000")  # Negro puro
         } else {
-            [System.Drawing.ColorTranslator]::FromHtml("#0D0A08")  # Marron muy oscuro
+            [System.Drawing.ColorTranslator]::FromHtml("#8B6B5D")  # Salmon oscuro profundo
         }
 
         $bgRect = New-Object System.Drawing.Rectangle(0, 0, $width, $height)
@@ -663,24 +662,6 @@ function New-ClaudeWallpaper {
         $highlightOpacity = if ($ThemeMode -eq "Light") { 60 } else { 80 }
         & $DrawWaveLayer $graphics $width $height $colors.WaveHighlight $highlightOpacity $baseYHigh $ampHigh 2.0 4.5 $true
 
-        # === CAPA ADICIONAL PARA DARK/OLED: Puntos de luz dorados ===
-        if ($ThemeMode -ne "Light") {
-            $random = New-Object System.Random(42)  # Seed fijo para reproducibilidad
-            $glowColor = [System.Drawing.ColorTranslator]::FromHtml("#$($colors.WaveHighlight)")
-
-            for ($i = 0; $i -lt 15; $i++) {
-                $glowX = $random.Next(0, $width)
-                $glowY = $random.Next([int]($height * 0.5), [int]($height * 0.85))
-                $glowSize = $random.Next(2, 8)
-                $glowOpacity = $random.Next(30, 80)
-
-                $glowBrush = New-Object System.Drawing.SolidBrush(
-                    [System.Drawing.Color]::FromArgb($glowOpacity, $glowColor.R, $glowColor.G, $glowColor.B)
-                )
-                $graphics.FillEllipse($glowBrush, $glowX, $glowY, $glowSize, $glowSize)
-                $glowBrush.Dispose()
-            }
-        }
 
         # === GUARDAR ===
         if ([string]::IsNullOrEmpty($OutputPath)) {
@@ -923,110 +904,6 @@ function Set-SystemCursors {
 }
 #endregion
 
-#region TranslucentTB Integration
-function Install-TranslucentTB {
-    param([string]$ThemeMode = "Dark")
-
-    if ($Script:Preview) {
-        Write-ClaudeLog "[PREVIEW] Instalaria y configuraria TranslucentTB" -Level Info
-        return $true
-    }
-
-    Write-ClaudeLog "Configurando TranslucentTB para taskbar flotante..." -Level Info
-
-    try {
-        # Verificar si TranslucentTB esta instalado
-        $ttbInstalled = Get-Command "TranslucentTB" -ErrorAction SilentlyContinue
-
-        if (-not $ttbInstalled) {
-            # Intentar instalar via winget
-            Write-ClaudeLog "Instalando TranslucentTB via winget..." -Level Info
-
-            $wingetResult = & winget install "TranslucentTB" --accept-source-agreements --accept-package-agreements 2>&1
-
-            if ($LASTEXITCODE -ne 0) {
-                Write-ClaudeLog "No se pudo instalar TranslucentTB automaticamente" -Level Warning
-                Write-ClaudeLog "Instala manualmente desde Microsoft Store: TranslucentTB" -Level Info
-                Write-ClaudeLog "O ejecuta: winget install TranslucentTB" -Level Info
-                return $false
-            }
-
-            Write-ClaudeLog "TranslucentTB instalado correctamente" -Level Success
-        } else {
-            Write-ClaudeLog "TranslucentTB ya esta instalado" -Level Success
-        }
-
-        # Crear configuracion para TranslucentTB
-        $ttbConfigPath = Join-Path $env:APPDATA "TranslucentTB"
-        if (!(Test-Path $ttbConfigPath)) {
-            New-Item -ItemType Directory -Path $ttbConfigPath -Force | Out-Null
-        }
-
-        # Colores segun modo
-        $colors = switch ($ThemeMode) {
-            "Light" { $Script:Config.LightMode }
-            "OLED"  { $Script:Config.OLEDMode }
-            default { $Script:Config.DarkMode }
-        }
-
-        # Configuracion de TranslucentTB
-        # Nota: TranslucentTB usa formato AARRGGBB
-        $bgColor = $colors.Background
-        $accentWithAlpha = "80$bgColor"  # 50% transparencia
-
-        $ttbSettings = @{
-            "Desktop" = @{
-                "accent" = "blur"
-                "color" = "#$accentWithAlpha"
-                "show_peek" = $false
-            }
-            "VisibleWindow" = @{
-                "accent" = "blur"
-                "color" = "#$accentWithAlpha"
-            }
-            "MaximizedWindow" = @{
-                "accent" = "opaque"
-                "color" = "#FF$bgColor"
-            }
-            "StartOpened" = @{
-                "accent" = "blur"
-                "color" = "#$accentWithAlpha"
-            }
-            "SearchOpened" = @{
-                "accent" = "blur"
-                "color" = "#$accentWithAlpha"
-            }
-            "TaskViewOpened" = @{
-                "accent" = "blur"
-                "color" = "#$accentWithAlpha"
-            }
-        }
-
-        # Guardar configuracion en carpeta del tema tambien
-        $localConfigPath = Join-Path $Script:Config.BasePath "Tools\TranslucentTB"
-        if (!(Test-Path $localConfigPath)) {
-            New-Item -ItemType Directory -Path $localConfigPath -Force | Out-Null
-        }
-
-        $configFile = Join-Path $localConfigPath "settings-$ThemeMode.json"
-        $ttbSettings | ConvertTo-Json -Depth 5 | Out-File $configFile -Encoding UTF8
-
-        Write-ClaudeLog "Configuracion de TranslucentTB creada: $configFile" -Level Success
-        Write-ClaudeLog "Para aplicar: Abre TranslucentTB y carga esta configuracion" -Level Info
-
-        # Centrar iconos del taskbar (Windows 11 nativo)
-        Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" `
-            -Name "TaskbarAl" -Value 1 -Type DWord -ErrorAction SilentlyContinue
-
-        Write-ClaudeLog "Iconos del taskbar centrados" -Level Success
-
-        return $true
-    } catch {
-        Write-ClaudeLog "Error al configurar TranslucentTB: $_" -Level Error
-        return $false
-    }
-}
-#endregion
 
 #region Font Installation
 function Install-InterFont {
@@ -1498,10 +1375,6 @@ function Invoke-ClaudeTheme {
         $results['Font'] = Install-InterFont
     }
 
-    # TranslucentTB para taskbar flotante
-    if ('TranslucentTB' -in $componentsToInstall) {
-        $results['TranslucentTB'] = Install-TranslucentTB -ThemeMode $primaryMode
-    }
 
     # Generar perfiles de Terminal para todos los modos
     if ('Terminal' -in $componentsToInstall) {
